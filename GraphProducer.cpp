@@ -41,7 +41,7 @@ void writeGraph(Graph *G){
 	myfile << G->v_num << endl;
  	for(int i = 0; i < G->v_num; i++){
 		for(int j = 0; j < G->v_num; j++){
- 			if(G->E[i][j] != 0){
+ 			if(i < j && G->E[i][j] != 0){
  				myfile << i << " " << G->E[i][j] << " " << j <<'\n';
 			}
 		}
