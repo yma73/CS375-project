@@ -1,19 +1,24 @@
-P = GraphProducer
+R = GraphProducer
+D = Driver
+G = Graph
+K = Kruskal
+P = Prim
 CFLAGS = -Wall -Wextra -DDEBUG -g -pedantic -std=c++14
 
-all: $(P)
+all: $(D)
 	
 run: all
-	./$(P) 10 10
+	./$(D) graph.txt
 checkmem: all
-	valgrind ./$(P) 10 10
+	valgrind ./$(D) graph.txt
 	
 clean: 
 	rm -rf *.o
-	rm $(P)
-	rm graph.txt
+	rm $(D)
 
-$(P): $(P).o
-	g++ $(CFLAGS) $(P).o -o $(P)
-$(P).o: $(P).cpp
+$(D): $(D).o $(P).o
+	g++ $(CFLAGS) $(D).o $(P).o -o $(D)
+$(P).o: $(P).cpp $(G).h
 	g++ $(CFLAGS) -c $(P).cpp -o $(P).o
+$(D).o: $(D).cpp $(G).h
+	g++ $(CFLAGS) -c $(D).cpp -o $(D).o

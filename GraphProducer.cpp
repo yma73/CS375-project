@@ -22,7 +22,7 @@ struct Graph{
 /*Randomize the vertice id [1, 100]*/
 int randomNumV(int v){
     int r;
-    //srand(time(NULL));//random seeds
+   	//srand(time(NULL));//random seeds
     r = rand()%v;
     return r;
 }
