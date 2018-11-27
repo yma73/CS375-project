@@ -11,6 +11,8 @@
 #include<fstream>
 #include<climits>
 
+#define HEAP 1
+
 typedef struct{
 	int start;
 	int weight;
@@ -45,7 +47,8 @@ public:
 	void print();
 
 	/*Functions needed for Prim's algorithm*/
-	Node* findNode(int id);
+	Node* findNodeHeap(int id);
+	Node* findNodeArray(int id);
 	void insertNode(int id, int w);
 	void minHeapify(int i);
 	bool isEmpty();
@@ -53,6 +56,7 @@ public:
 	int left(int i);
 	int parent(int i);
 	void heapDecreaseKey(int pos, int key);
+	void arrayDecreaseKey(int pos, int key);
 	Node* arrayExtractMin();
 	Node* heapExtractMin();
 

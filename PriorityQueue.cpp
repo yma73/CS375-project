@@ -3,7 +3,7 @@
 using namespace std;
 
 
-Node* Graph::findNode(int id){
+Node* Graph::findNodeHeap(int id){
 	id ++;
 	if(id < 1 || id > v_num){
 		perror("Wrong id!");
@@ -101,7 +101,38 @@ void Graph::heapDecreaseKey(int pos, int key){
 	}
 }
 
-/*
-Node Graph::arrayExtractMin(){
-	
-}*/
+
+Node* Graph::arrayExtractMin(){
+	int min_key = INT_MAX;
+	int index = 1;
+	Node * min;
+	for(size_t i = 1; i < non_tree_nodes.size(); i ++){
+		if(non_tree_nodes[i]->key < min_key){
+			min_key = non_tree_nodes[i]->key;
+			min = non_tree_nodes[i];
+			index = i;
+		}
+	}
+	non_tree_nodes.erase(non_tree_nodes.begin()+index);
+	return min;
+}
+
+void Graph::arrayDecreaseKey(int id, int key){
+	for(size_t i = 1; i < non_tree_nodes.size(); i ++){
+		if(non_tree_nodes[i]->id == id){
+			if(key < non_tree_nodes[i]->key){
+				non_tree_nodes[i]->key = key;
+			}
+			break;
+		}
+	}
+}
+
+Node* Graph::findNodeArray(int id){
+	for(size_t i = 1; i < non_tree_nodes.size(); i ++){
+		if(non_tree_nodes[i]->id == id){
+			return non_tree_nodes[i];
+		}
+	}
+	return NULL;
+}

@@ -43,16 +43,24 @@ void Graph::PrimMST(){
 	heapDecreaseKey(1,0);
 	while(!isEmpty()){
 		Node * u;
-		#if 1
+		#if HEAP == 1
 		u = heapExtractMin();
 		#else
 		u = arrayExtractMin();
 		#endif 
 		for(size_t i = 0; i < u->adj.size(); i ++){
-			Node* v = findNode(u->adj[i].end);
+			#if HEAP == 1
+			Node* v = findNodeHeap(u->adj[i].end);
+			#else
+			Node* v = findNodeArray(u->adj[i].end);
+			#endif
 			if(v != NULL && u->adj[i].weight < v->key){
 				v->parent = u->id;
+				#if HEAP == 1
 				heapDecreaseKey(handles[v->id + 1],u->adj[i].weight);
+				#else
+				arrayDecreaseKey(v->id,u->adj[i].weight);
+				#endif
 			}
 		}
 	}
@@ -95,7 +103,11 @@ void Graph::build(){
 			}
 		}
 		nodes.push_back(newNode);
+		#if HEAP == 1
 		insertNode(id,INT_MAX);
+		#else
+		non_tree_nodes.push_back(newNode);
+		#endif
 	}
 	for(size_t i = 0; i < nodes.size(); i ++){
 		if(nodes[i]->adj.size() == 0){
