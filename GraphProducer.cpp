@@ -76,6 +76,19 @@ void createGraph(Graph *G){
 	}
 }
  
+bool checkConnected(Graph* G){
+	for(int i = 0; i < G->v_num; i ++){
+		bool flag = false;
+		for(int j = 0; j < G->v_num; j ++){
+			if(G->E[i][j] > 0){
+				flag = true;
+			}
+		}
+		if(!flag) return false;
+	}
+	return true;
+}
+
 int main(int argc, char** argv){
 	if(argc != 3){
 		perror("please invoke as: ./GraphProducer vertice_num edge_num!");
@@ -88,8 +101,13 @@ int main(int argc, char** argv){
 	Graph* graph = new Graph;
 	graph->v_num = v_num;
 	graph->e_num = e_num;
+	
+	bool check = false;
+	while(!check){
+		createGraph(graph);
+		check = checkConnected(graph);
+	}
 
-	createGraph(graph);
 	writeGraph(graph);
 
 	delete graph;

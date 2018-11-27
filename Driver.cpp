@@ -9,4 +9,6 @@ int main(int argc, char ** argv){
 	}
 	Graph graph = Graph(argv[1]);
 	graph.print();
+	graph.PrimMST();
+	graph.showResult();
 }
