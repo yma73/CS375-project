@@ -4,16 +4,26 @@ using namespace std;
 
 
 Node* Graph::findNode(int id){
+	id ++;
+	if(id < 1 || id > v_num){
+		perror("Wrong id!");
+		exit(1);
+	}
 	int pos = handles[id];
 	if(pos == -1){
 		return NULL;
 	}
-	return non_tree_nodes[pos]; 
+	Node * temp = non_tree_nodes[pos];
+	return temp; 
 }
 
 void Graph::insertNode(int id, int w){
 	int pos = (int)non_tree_nodes.size();
-	if(handles[id] != -1){
+	if(pos > v_num || pos < 1){
+		perror("Wrong size!");
+		exit(1);
+	}
+	if(handles[id+1] != -1){
 		perror("This node is already in the queue!");
 		return;
 	}
@@ -22,28 +32,31 @@ void Graph::insertNode(int id, int w){
 	}
 
 	non_tree_nodes.push_back(nodes[id]);
-	handles[id] = pos;
-
+	handles[id+1] = pos;
 	heapDecreaseKey(pos,w);
 }
 
 void Graph::minHeapify(int i){
-	if(i == 0) return;
 	int lchild = left(i);
 	int rchild = right(i);
 	int smallest = i;
 	if(lchild <= (int)(non_tree_nodes.size()-1) && non_tree_nodes[lchild]->key < non_tree_nodes[i]->key) smallest = lchild;
 	if(rchild <= (int)(non_tree_nodes.size()-1) && non_tree_nodes[rchild]->key < non_tree_nodes[smallest]->key) smallest = rchild;
 	if(smallest != i){
+		int k_i = non_tree_nodes[i]->id;
+		int k_smallest = non_tree_nodes[smallest]->id;
+		handles[k_i+1] = smallest;
+		handles[k_smallest+1] = i;
+
 		Node* temp_ptr = non_tree_nodes[i];
 		non_tree_nodes[i] = non_tree_nodes[smallest];
 		non_tree_nodes[smallest] = temp_ptr;
-		int temp = handles[i];
-		handles[i] = handles[smallest];
-		handles[smallest] = temp;
+
 		minHeapify(smallest);
 	}
 }
+
+
 
 bool Graph::isEmpty(){
 	if(non_tree_nodes.size() < 2) return true;
@@ -63,18 +76,24 @@ int Graph::parent(int i){
 }
 
 Node* Graph::heapExtractMin(){
+	if(isEmpty()) exit(1); 
 	Node* min = non_tree_nodes[1];
 	non_tree_nodes[1] = non_tree_nodes[non_tree_nodes.size() - 1];
+	handles[non_tree_nodes[1]->id+1] = 1;
 	non_tree_nodes.pop_back();
 	minHeapify(1);
+	int pos = min->id + 1;
+	handles[pos] = -1;
 	return min;
 }
 
 void Graph::heapDecreaseKey(int pos, int key){
-	if(key >= non_tree_nodes[pos]->key) return;
+	if(key > non_tree_nodes[pos]->key) return;
 	non_tree_nodes[pos]->key = key;
 	while(pos > 1 && non_tree_nodes[parent(pos)]->key > non_tree_nodes[pos]->key){
 		int parent_pos = parent(pos);
+		handles[non_tree_nodes[pos]->id + 1] = parent_pos;
+		handles[non_tree_nodes[parent_pos]->id + 1] = pos;
 		Node* temp = non_tree_nodes[pos];
 		non_tree_nodes[pos] = non_tree_nodes[parent_pos];
 		non_tree_nodes[parent_pos] = temp;

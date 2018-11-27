@@ -10,9 +10,9 @@ all: $(D)
 produce: $(R)
 	./$(R) 10 10
 run: all
-	./$(D) graph.txt
+	./$(D) slide_example.txt
 checkmem: all
-	valgrind ./$(D) graph.txt
+	valgrind ./$(D) slide_example.txt
 clean: 
 	rm -rf *.o
 	rm $(D)

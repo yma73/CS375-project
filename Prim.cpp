@@ -40,7 +40,6 @@ void Graph::print(){
 
 void Graph::PrimMST(){
 	build();
-	//debug();
 	heapDecreaseKey(1,0);
 	while(!isEmpty()){
 		Node * u;
@@ -53,7 +52,7 @@ void Graph::PrimMST(){
 			Node* v = findNode(u->adj[i].end);
 			if(v != NULL && u->adj[i].weight < v->key){
 				v->parent = u->id;
-				heapDecreaseKey(v->id,u->adj[i].weight);
+				heapDecreaseKey(handles[v->id + 1],u->adj[i].weight);
 			}
 		}
 	}
@@ -61,14 +60,10 @@ void Graph::PrimMST(){
 }
 
 void Graph::showResult(){
-	//debug();
 	ofstream myfile;
 	myfile.open("mstPrim.txt", ios::out);
 	for(size_t i = 0; i < nodes.size(); i ++){
-		//cout << "Node#: " << i << "\nTree edges related to this node:" << endl;
-		//cout << "parent: " << nodes[i]->parent << endl;
 		for(size_t j = 0; j < nodes[i]->adj.size(); j ++){
-		//	cout << j << " : " << nodes[i]->adj[j].end << endl;
 			if(nodes[i]->parent == nodes[i]->adj[j].end){
 				myfile << "An tree edge from " << nodes[i]->adj[j].end << " to " << i << '\n';
 			}
@@ -111,16 +106,20 @@ void Graph::build(){
 }
 
 void Graph::debug(){
-	for(int i = 0; i < v_num; i ++){
+	/*for(int i = 0; i < v_num; i ++){
 		cout << "Node# " << nodes[i]->id << "; Key: " << nodes[i]->key << "; Parent: " << nodes[i]->parent << "; List: " << endl;
 		for(size_t j = 0; j < nodes[i]->adj.size(); j ++){
 			cout << nodes[i]->adj[j].end << " ";
 		}
 		cout << endl;
-	}
+	}*/
 	cout << " Queue: "<< endl;
 	for(size_t i = 1; i < non_tree_nodes.size(); i++){
 		cout << "Node# " << non_tree_nodes[i]->id << "; Key: " << non_tree_nodes[i]->key << "; Parent: " << non_tree_nodes[i]->parent << "; List: " << non_tree_nodes[i]->adj.size() << endl;
+	}
+	cout << "Handles: " << endl;
+	for(size_t i = 1; i < handles.size(); i++){
+		cout << "Node# " << i-1 << " resides in " << handles[i] << endl;
 	}
 }
 
