@@ -6,7 +6,7 @@
 
 using namespace std;
  
-#define MAX_VERTICES 100 
+#define MAX_VERTICES 1000 
 
 
 typedef int vertex_type;

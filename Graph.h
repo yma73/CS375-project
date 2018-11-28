@@ -10,8 +10,10 @@
 #include<string.h>
 #include<fstream>
 #include<climits>
+#include<time.h>
 
 #define HEAP 1
+#define HANDLE 0
 
 typedef struct{
 	int start;
@@ -26,8 +28,6 @@ typedef struct{
 	int parent;
 	std::vector<Edge> adj;
 }Node;
-
-class DisjointSet;
 
 class Graph{
 
@@ -48,6 +48,7 @@ public:
 
 	/*Functions needed for Prim's algorithm*/
 	Node* findNodeHeap(int id);
+	int findNodeIndex(int id);
 	Node* findNodeArray(int id);
 	void insertNode(int id, int w);
 	void minHeapify(int i);
@@ -62,12 +63,13 @@ public:
 
 	void PrimMST();
 	void build();
-	void showResult();
+	void showResult(double time);
 
 	void debug();
 
 	/*Functions needed for Kruskal's algorithm*/
-	friend class DisjointSet;
+	void Kruskal1();
+	void Kruskal2();
 };
 
 #endif

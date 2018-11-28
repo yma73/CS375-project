@@ -4,6 +4,7 @@ using namespace std;
 
 
 Node* Graph::findNodeHeap(int id){
+	#if HANDLE == 1
 	id ++;
 	if(id < 1 || id > v_num){
 		perror("Wrong id!");
@@ -15,6 +16,19 @@ Node* Graph::findNodeHeap(int id){
 	}
 	Node * temp = non_tree_nodes[pos];
 	return temp; 
+	#else
+	for(size_t i = 1; i < non_tree_nodes.size(); i ++){
+		if(non_tree_nodes[i]->id == id) return non_tree_nodes[i];
+	}
+	return NULL;
+	#endif
+}
+
+int Graph::findNodeIndex(int id){
+	for(size_t i = 1; i < non_tree_nodes.size(); i ++){
+		if(non_tree_nodes[i]->id == id) return i;
+	}
+	return -1;
 }
 
 void Graph::insertNode(int id, int w){

@@ -8,7 +8,9 @@ int main(int argc, char ** argv){
 		exit(1);
 	}
 	Graph graph = Graph(argv[1]);
-	graph.print();
+	//graph.print();
+	graph.build();
 	graph.PrimMST();
-	graph.showResult();
+	graph.Kruskal1();
+	graph.Kruskal2();
 }

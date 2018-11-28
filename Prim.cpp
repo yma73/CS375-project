@@ -39,8 +39,31 @@ void Graph::print(){
 }
 
 void Graph::PrimMST(){
-	build();
+	clock_t t_start,t_end;
+	t_start=clock();
+	/*initialization*/
+	Node* empty = new Node;
+	empty->id = -1;
+	empty->key = -1;
+	empty->parent = -1;
+	non_tree_nodes.push_back(empty);
+	for(int i = 0; i <= v_num; i ++){
+		handles.push_back(-1);
+	}
+	for(size_t i = 0; i < nodes.size(); i ++){
+		#if HEAP == 1
+		insertNode(nodes[i]->id,INT_MAX);
+		#else
+		non_tree_nodes.push_back(nodes[i]);
+		#endif
+	}
+	/*Start*/
+	#if HANDLE == 1
 	heapDecreaseKey(1,0);
+	#else
+	int index = findNodeIndex(0);
+	heapDecreaseKey(index,0);
+	#endif
 	while(!isEmpty()){
 		Node * u;
 		#if HEAP == 1
@@ -57,38 +80,41 @@ void Graph::PrimMST(){
 			if(v != NULL && u->adj[i].weight < v->key){
 				v->parent = u->id;
 				#if HEAP == 1
-				heapDecreaseKey(handles[v->id + 1],u->adj[i].weight);
+					#if HANDLE == 1
+					heapDecreaseKey(handles[v->id + 1],u->adj[i].weight);
+					#else
+					int index = findNodeIndex(v->id);
+					heapDecreaseKey(index,u->adj[i].weight);
+					#endif		
 				#else
 				arrayDecreaseKey(v->id,u->adj[i].weight);
 				#endif
 			}
 		}
 	}
-
+	t_end=clock();
+	double time = (t_end-t_start)*1.0/CLOCKS_PER_SEC*1000;
+	showResult(time);
 }
 
-void Graph::showResult(){
+void Graph::showResult(double time){
 	ofstream myfile;
 	myfile.open("mstPrim.txt", ios::out);
+	int totalWeight = 0;
 	for(size_t i = 0; i < nodes.size(); i ++){
 		for(size_t j = 0; j < nodes[i]->adj.size(); j ++){
 			if(nodes[i]->parent == nodes[i]->adj[j].end){
-				myfile << "An tree edge from " << nodes[i]->adj[j].end << " to " << i << '\n';
+				//myfile << "An tree edge from " << nodes[i]->adj[j].end << " to " << i << '\n';
+				totalWeight += nodes[i]->adj[j].weight;
 			}
 		}
 	}
+	myfile << "totalWeight:  " << totalWeight << '\n';
+	myfile << "time:  " << time <<" ms"<<'\n';
 	myfile.close();
 }
 
 void Graph::build(){
-	Node* empty = new Node;
-	empty->id = -1;
-	empty->key = -1;
-	empty->parent = -1;
-	non_tree_nodes.push_back(empty);
-	for(int i = 0; i <= v_num; i ++){
-		handles.push_back(-1);
-	}
 	for(int id = 0; id < v_num; id ++){
 		Node* newNode = new Node;
 		newNode->id = id;
@@ -103,11 +129,6 @@ void Graph::build(){
 			}
 		}
 		nodes.push_back(newNode);
-		#if HEAP == 1
-		insertNode(id,INT_MAX);
-		#else
-		non_tree_nodes.push_back(newNode);
-		#endif
 	}
 	for(size_t i = 0; i < nodes.size(); i ++){
 		if(nodes[i]->adj.size() == 0){
@@ -118,21 +139,21 @@ void Graph::build(){
 }
 
 void Graph::debug(){
-	/*for(int i = 0; i < v_num; i ++){
+	for(int i = 0; i < v_num; i ++){
 		cout << "Node# " << nodes[i]->id << "; Key: " << nodes[i]->key << "; Parent: " << nodes[i]->parent << "; List: " << endl;
 		for(size_t j = 0; j < nodes[i]->adj.size(); j ++){
-			cout << nodes[i]->adj[j].end << " ";
+			cout << "To: " << nodes[i]->adj[j].end << "; weight: " << nodes[i]->adj[j].weight << " ";
 		}
-		cout << endl;
-	}*/
-	cout << " Queue: "<< endl;
+		//cout << endl;
+	}
+	/*cout << " Queue: "<< endl;
 	for(size_t i = 1; i < non_tree_nodes.size(); i++){
 		cout << "Node# " << non_tree_nodes[i]->id << "; Key: " << non_tree_nodes[i]->key << "; Parent: " << non_tree_nodes[i]->parent << "; List: " << non_tree_nodes[i]->adj.size() << endl;
 	}
 	cout << "Handles: " << endl;
 	for(size_t i = 1; i < handles.size(); i++){
 		cout << "Node# " << i-1 << " resides in " << handles[i] << endl;
-	}
+	}*/
 }
 
 Graph::~Graph(){

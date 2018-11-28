@@ -5,20 +5,20 @@
 
 struct Item;
 
-struct Node{
+struct Node2{
 	int val;
-	Node *next;
+	Node2 *next;
 	Item *itemPtr;
 };
 
 struct Item{
-	Node *head, *tail;
+	Node2 *head, *tail;
 	int length;
 };
 
 class DisjointSet2{
 private:
-	std::map<int, Node*> nodeAddress;
+	std::map<int, Node2*> nodeAddress;
 public:
 	DisjointSet2(int n);
 	void makeset(int a);

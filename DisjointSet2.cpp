@@ -8,7 +8,7 @@ DisjointSet2::DisjointSet2(int n){
 }
 void DisjointSet2::makeset(int a){
 	Item * newSet =new Item;
-	newSet->head =new Node;
+	newSet->head =new Node2;
 	newSet->tail=newSet->head;
 	newSet->length=1;
 
@@ -20,13 +20,13 @@ void DisjointSet2::makeset(int a){
 }
 
 Item* DisjointSet2::find(int key){
-	Node * p=nodeAddress[key];
+	Node2 * p=nodeAddress[key];
 	return p->itemPtr;
 }
 
 void DisjointSet2::unionSet(Item* a, Item* b){
-	Node *temp1=a->head;
-	Node *temp2=b->head;
+	Node2 *temp1=a->head;
+	Node2 *temp2=b->head;
 
 	if(a->length<b->length){
 		while(temp1!=NULL){

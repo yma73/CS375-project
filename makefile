@@ -10,7 +10,7 @@ all: $(D)
 produce: $(R)
 	./$(R) 10 10
 run: all
-	./$(D) slide_example.txt
+	./$(D) graph.txt
 checkmem: all
 	valgrind ./$(D) slide_example.txt
 clean: 
@@ -18,8 +18,8 @@ clean:
 	rm $(D)
 	rm $(R)
 
-$(D): $(D).o $(P).o PriorityQueue.o
-	g++ $(CFLAGS) $(D).o $(P).o PriorityQueue.o -o $(D)
+$(D): $(D).o $(P).o PriorityQueue.o $(K).o DisjointSet.o DisjointSet2.o
+	g++ $(CFLAGS) $(D).o $(P).o PriorityQueue.o $(K).o DisjointSet.o DisjointSet2.o -o $(D)
 $(P).o: $(P).cpp $(G).h
 	g++ $(CFLAGS) -c $(P).cpp -o $(P).o
 $(D).o: $(D).cpp $(G).h
@@ -28,3 +28,9 @@ $(R): $(R).cpp
 	g++ $(CFLAGS) $(R).cpp -o $(R)
 PriorityQueue.o: PriorityQueue.cpp $(G).h
 	g++ $(CFLAGS) -c PriorityQueue.cpp -o PriorityQueue.o 
+DisjointSet.o: DisjointSet.cpp DisjointSet.h
+	g++ $(CFLAGS) -c DisjointSet.cpp -o DisjointSet.o
+DisjointSet2.o: DisjointSet2.cpp DisjointSet2.h
+	g++ $(CFLAGS) -c DisjointSet2.cpp -o DisjointSet2.o
+$(K).o: $(K).cpp $(G).h DisjointSet.h DisjointSet2.h
+	g++ $(CFLAGS) -c $(K).cpp -o $(K).o
