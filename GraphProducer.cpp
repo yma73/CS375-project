@@ -6,7 +6,7 @@
 
 using namespace std;
  
-#define MAX_VERTICES 2000 
+#define MAX_VERTICES 5000 
 
 
 typedef int vertex_type;
@@ -35,9 +35,9 @@ edge_type randomNumW(){
     return r;
 }
 
-void writeGraph(Graph *G){
+void writeGraph(Graph *G, string filename){
 	ofstream myfile;
-	myfile.open("graph.txt",ios::out);
+	myfile.open(filename,ios::out);
 	myfile << G->v_num << endl;
  	for(int i = 0; i < G->v_num; i++){
 		for(int j = 0; j < G->v_num; j++){
@@ -137,7 +137,7 @@ void mostDense(Graph* G){
 }
 
 int main(int argc, char** argv){
-	if(argc != 3){
+	if(argc != 4){
 		perror("please invoke as: ./GraphProducer vertice_num edge_num!");
 		exit(1);
 	}
@@ -161,7 +161,7 @@ int main(int argc, char** argv){
 		}
 	}	
 
-	writeGraph(graph);
+	writeGraph(graph,argv[3]);
 
 	delete graph;
 
