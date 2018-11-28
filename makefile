@@ -8,7 +8,7 @@ CFLAGS = -Wall -Wextra -DDEBUG -g -pedantic -std=c++14
 all: $(D)
 
 produce: $(R)
-	./$(R) 10 10
+
 run: all
 	./$(D) graph.txt
 checkmem: all

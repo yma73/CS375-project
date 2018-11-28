@@ -89,6 +89,53 @@ bool checkConnected(Graph* G){
 	return true;
 }
 
+void mostSparse(Graph* G){
+	/*Set vertices for G*/
+	for(int i = 0; i < G->v_num; i++){
+		G->V[i]=i;
+	}
+
+	/*Set edges for G*/
+	for(int i = 0; i < G->v_num; i++){
+		for(int j = 0; j < G->v_num; j++){
+			G->E[i][j] = 0;
+		}
+	}
+
+	int i = 0;
+	int j = 1;
+	
+	for(int k = 0; k < G->e_num; k++){
+		edge_type weight = randomNumW();
+ 		G->E[i][j] = weight;
+		G->E[j][i] = weight;
+		i++;
+		j++;
+	}
+}
+
+void mostDense(Graph* G){
+	/*Set vertices for G*/
+	for(int i = 0; i < G->v_num; i++){
+		G->V[i]=i;
+	}
+
+	/*Set edges for G*/
+	for(int i = 0; i < G->v_num; i++){
+		for(int j = 0; j < G->v_num; j++){
+			G->E[i][j] = 0;
+		}
+	}
+	
+	 for(int i = 0; i < G->v_num; i++){
+		for(int j = i + 1; j < G->v_num; j++){
+ 			edge_type weight = randomNumW();
+ 			G->E[i][j] = weight;
+			G->E[j][i] = weight;
+		}
+	}
+}
+
 int main(int argc, char** argv){
 	if(argc != 3){
 		perror("please invoke as: ./GraphProducer vertice_num edge_num!");
@@ -101,12 +148,18 @@ int main(int argc, char** argv){
 	Graph* graph = new Graph;
 	graph->v_num = v_num;
 	graph->e_num = e_num;
-	
-	bool check = false;
-	while(!check){
-		createGraph(graph);
-		check = checkConnected(graph);
-	}
+
+	if(v_num == e_num){
+		mostSparse(graph);
+	}else if(e_num == (v_num*(v_num-1))/2){
+		mostDense(graph);
+	}else{
+		bool check = false;
+		while(!check){
+			createGraph(graph);
+			check = checkConnected(graph);
+		}
+	}	
 
 	writeGraph(graph);
 
