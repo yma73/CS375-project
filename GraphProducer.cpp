@@ -6,7 +6,7 @@
 
 using namespace std;
  
-#define MAX_VERTICES 1000 
+#define MAX_VERTICES 2000 
 
 
 typedef int vertex_type;
@@ -105,7 +105,7 @@ void mostSparse(Graph* G){
 	int i = 0;
 	int j = 1;
 	
-	for(int k = 0; k < G->e_num; k++){
+	for(int k = 0; k < G->e_num-1; k++){
 		edge_type weight = randomNumW();
  		G->E[i][j] = weight;
 		G->E[j][i] = weight;
