@@ -61,8 +61,7 @@ void Graph::Kruskal1(){
 	int totalWeight=0;
 
 	ofstream myfile;
-	myfile.open("mstKruskal1.txt", ios::out);
-	myfile<<"Kruskal1 Implement DisjointSet by a tree structure using array"<<'\n';
+	myfile.open("output/kruskal_tree.txt", ios::out);
 	for(size_t i=0;i<MST_edges->size();i++){
 		//myfile<<MST_edges[i].start<<" "<<MST_edges[i].end<<" "<<MST_edges[i].weight<<'\n';
 		totalWeight+=(*MST_edges)[i]->weight;
@@ -99,8 +98,7 @@ void Graph::Kruskal2(){
 	t_end=clock();
 	int totalWeight=0;
 	ofstream myfile;
-	myfile.open("mstKruskal2.txt", ios::out);
-	myfile<<"Kruskal2 Implement DisjointSet by a linked list structure"<<'\n';
+	myfile.open("output/kruskal_linked_list.txt", ios::out);
 	for(size_t i=0;i<MST_edges->size();i++){
 		//myfile<<MST_edges[i].start<<" "<<MST_edges[i].end<<" "<<MST_edges[i].weight<<'\n';
 		totalWeight+=(*MST_edges)[i]->weight;

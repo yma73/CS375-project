@@ -10,13 +10,14 @@ all: $(D)
 produce: $(R)
 
 run: all
-	./$(D) graph.txt
+	./$(D) datasets/100vertices/1.txt
 checkmem: all
 	valgrind ./$(D) slide_example.txt
 clean: 
 	rm -rf *.o
-	rm $(D)
-	rm $(R)
+	rm -rf output/*.txt
+	rm -rf $(D)
+	rm -rf $(R)
 
 $(D): $(D).o $(P).o PriorityQueue.o $(K).o DisjointSet.o DisjointSet2.o
 	g++ $(CFLAGS) $(D).o $(P).o PriorityQueue.o $(K).o DisjointSet.o DisjointSet2.o -o $(D)
