@@ -67,8 +67,9 @@ void Graph::Kruskal1(){
 		//myfile<<MST_edges[i].start<<" "<<MST_edges[i].end<<" "<<MST_edges[i].weight<<'\n';
 		totalWeight+=(*MST_edges)[i]->weight;
 	}
-	myfile<<"totalWeight:  "<<totalWeight<<'\n';
-	myfile<<"time:  "<<(t_end-t_start)*1.0/CLOCKS_PER_SEC*1000<<" ms"<<'\n';
+	myfile<<"edges: " << edges.size() << '\n';
+	myfile<<"totalWeight: "<<totalWeight<<'\n';
+	myfile<<"time: "<<(t_end-t_start)*1.0/CLOCKS_PER_SEC*1000<<" ms"<<'\n';
 	myfile<<'\n';
 }
 
@@ -105,8 +106,9 @@ void Graph::Kruskal2(){
 		//myfile<<MST_edges[i].start<<" "<<MST_edges[i].end<<" "<<MST_edges[i].weight<<'\n';
 		totalWeight+=(*MST_edges)[i]->weight;
 	}
-	myfile<<"totalWeight:  "<<totalWeight<<'\n';
-	myfile<<"time:  "<<(t_end-t_start)*1.0/CLOCKS_PER_SEC*1000<<" ms"<<'\n';
+	myfile<<"edges: " << edges.size() << '\n';
+	myfile<<"totalWeight: "<<totalWeight<<'\n';
+	myfile<<"time: "<<(t_end-t_start)*1.0/CLOCKS_PER_SEC*1000<<" ms"<<'\n';
 	myfile<<'\n';
 	myfile.close();
 }
