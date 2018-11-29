@@ -62,6 +62,7 @@ void Graph::Kruskal1(){
 
 	ofstream myfile;
 	myfile.open("output/kruskal_tree.txt", ios::out);
+	myfile << "kruskal_tree.txt" << '\n';
 	for(size_t i=0;i<MST_edges->size();i++){
 		//myfile<<MST_edges[i].start<<" "<<MST_edges[i].end<<" "<<MST_edges[i].weight<<'\n';
 		totalWeight+=(*MST_edges)[i]->weight;
@@ -99,6 +100,7 @@ void Graph::Kruskal2(){
 	int totalWeight=0;
 	ofstream myfile;
 	myfile.open("output/kruskal_linked_list.txt", ios::out);
+	myfile << "kruskal_linked_list.txt" << '\n';
 	for(size_t i=0;i<MST_edges->size();i++){
 		//myfile<<MST_edges[i].start<<" "<<MST_edges[i].end<<" "<<MST_edges[i].weight<<'\n';
 		totalWeight+=(*MST_edges)[i]->weight;
