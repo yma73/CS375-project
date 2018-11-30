@@ -130,7 +130,7 @@ void Graph::showResult(double time){
 	for(size_t i = 0; i < nodes.size(); i ++){
 		for(size_t j = 0; j < nodes[i]->adj.size(); j ++){
 			if(nodes[i]->parent == nodes[i]->adj[j].end){
-				//myfile << "An tree edge from " << nodes[i]->adj[j].end << " to " << i << '\n';
+			//	myfile << "An tree edge from " << nodes[i]->adj[j].end << " to " << i << '\n';
 				totalWeight += nodes[i]->adj[j].weight;
 			//	edges ++;
 			}
