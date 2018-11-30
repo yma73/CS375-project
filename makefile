@@ -10,13 +10,15 @@ all: $(D)
 produce: $(R)
 
 run: all
-	./$(D) datasets/500vertices/1.txt
-	# ./$(D) datasets/500vertices/2.txt
-	# ./$(D) datasets/500vertices/3.txt
-	# ./$(D) datasets/500vertices/4.txt
-	# ./$(D) datasets/500vertices/5.txt
-	# ./$(D) datasets/500vertices/6.txt
-	# ./$(D) datasets/500vertices/7.txt
+	# ./$(D) datasets/500vertices/v2/1.txt
+	# ./$(D) datasets/500vertices/v2/2.txt
+	# ./$(D) datasets/500vertices/v2/3.txt
+	# ./$(D) datasets/500vertices/v2/4.txt
+	# ./$(D) datasets/500vertices/v2/5.txt
+	# ./$(D) datasets/500vertices/v2/6.txt
+	# ./$(D) datasets/500vertices/v2/7.txt
+	# ./$(D) datasets/500vertices/v2/8.txt
+	./$(D) datasets/500vertices/v2/9.txt
 
 checkmem: all
 	valgrind ./$(D) slide_example.txt
