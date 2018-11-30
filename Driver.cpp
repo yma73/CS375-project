@@ -11,6 +11,7 @@ int main(int argc, char ** argv){
 	//graph.print();
 	graph.build();
 	graph.PrimMST();
+	graph.PrimMSTArray();
 	graph.Kruskal1();
 	graph.Kruskal2();
 }

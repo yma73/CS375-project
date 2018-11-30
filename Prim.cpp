@@ -51,11 +51,7 @@ void Graph::PrimMST(){
 		handles.push_back(-1);
 	}
 	for(size_t i = 0; i < nodes.size(); i ++){
-		#if HEAP == 1
 		insertNode(nodes[i]->id,INT_MAX);
-		#else
-		non_tree_nodes.push_back(nodes[i]);
-		#endif
 	}
 	/*Start*/
 	#if HANDLE == 1
@@ -66,29 +62,18 @@ void Graph::PrimMST(){
 	#endif
 	while(!isEmpty()){
 		Node * u;
-		#if HEAP == 1
 		u = heapExtractMin();
-		#else
-		u = arrayExtractMin();
-		#endif 
 		for(size_t i = 0; i < u->adj.size(); i ++){
-			#if HEAP == 1
 			Node* v = findNodeHeap(u->adj[i].end);
-			#else
-			Node* v = findNodeArray(u->adj[i].end);
-			#endif
+	
 			if(v != NULL && u->adj[i].weight < v->key){
 				v->parent = u->id;
-				#if HEAP == 1
 					#if HANDLE == 1
 					heapDecreaseKey(handles[v->id + 1],u->adj[i].weight);
 					#else
 					int index = findNodeIndex(v->id);
 					heapDecreaseKey(index,u->adj[i].weight);
 					#endif		
-				#else
-				arrayDecreaseKey(v->id,u->adj[i].weight);
-				#endif
 			}
 		}
 	}
@@ -97,22 +82,87 @@ void Graph::PrimMST(){
 	showResult(time);
 }
 
+void Graph::PrimMSTArray(){
+	clock_t t_start,t_end;
+	t_start=clock();
+	/*initialization*/
+	Node* empty = new Node;
+	empty->id = -1;
+	empty->key = -1;
+	empty->parent = -1;
+	non_tree_nodes.push_back(empty);
+	for(int i = 0; i <= v_num; i ++){
+		handles.push_back(-1);
+	}
+	for(size_t i = 0; i < nodes.size(); i ++){
+		non_tree_nodes.push_back(nodes[i]);
+	}
+	/*Start*/
+	arrayDecreaseKey(0,0);
+	while(!isEmpty()){
+		Node * u;
+		#if HEAP == 1
+		u = heapExtractMin();
+		#else
+		u = arrayExtractMin();
+		#endif 
+		for(size_t i = 0; i < u->adj.size(); i ++){
+
+			Node* v = findNodeArray(u->adj[i].end);
+		
+			if(v != NULL && u->adj[i].weight < v->key){
+				v->parent = u->id;
+				arrayDecreaseKey(v->id,u->adj[i].weight);
+			}
+		}
+	}
+	t_end=clock();
+	double time = (t_end-t_start)*1.0/CLOCKS_PER_SEC*1000;
+	showResultArray(time);
+}
+
+
 void Graph::showResult(double time){
 	ofstream myfile;
-	myfile.open("mstPrim.txt", ios::out);
+	myfile.open("output/prim_heap.txt", ios::out);
 	int totalWeight = 0;
+	int num_edges = edges.size();
 	for(size_t i = 0; i < nodes.size(); i ++){
 		for(size_t j = 0; j < nodes[i]->adj.size(); j ++){
 			if(nodes[i]->parent == nodes[i]->adj[j].end){
 				//myfile << "An tree edge from " << nodes[i]->adj[j].end << " to " << i << '\n';
 				totalWeight += nodes[i]->adj[j].weight;
+			//	edges ++;
 			}
 		}
 	}
+	myfile << "edges:  " << num_edges << '\n';
 	myfile << "totalWeight:  " << totalWeight << '\n';
 	myfile << "time:  " << time <<" ms"<<'\n';
 	myfile.close();
 }
+
+void Graph::showResultArray(double time){
+	ofstream myfile;
+	myfile.open("output/prim_array.txt", ios::out);
+	int totalWeight = 0;
+	int num_edges = edges.size();
+	for(size_t i = 0; i < nodes.size(); i ++){
+		for(size_t j = 0; j < nodes[i]->adj.size(); j ++){
+			if(nodes[i]->parent == nodes[i]->adj[j].end){
+				//myfile << "An tree edge from " << nodes[i]->adj[j].end << " to " << i << '\n';
+				totalWeight += nodes[i]->adj[j].weight;
+	//			edges ++;
+			}
+		}
+	}
+	myfile << "edges:  " << num_edges << '\n';
+	myfile << "totalWeight:  " << totalWeight << '\n';
+	myfile << "time:  " << time <<" ms"<<'\n';
+	myfile.close();
+
+}
+
 
 void Graph::build(){
 	for(int id = 0; id < v_num; id ++){

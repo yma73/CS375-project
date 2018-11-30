@@ -12,8 +12,7 @@
 #include<climits>
 #include<time.h>
 
-#define HEAP 1
-#define HANDLE 0
+#define HANDLE 1
 
 typedef struct{
 	int start;
@@ -62,8 +61,10 @@ public:
 	Node* heapExtractMin();
 
 	void PrimMST();
+	void PrimMSTArray();
 	void build();
 	void showResult(double time);
+	void showResultArray(double time);
 
 	void debug();
 
