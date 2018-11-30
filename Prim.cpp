@@ -101,11 +101,7 @@ void Graph::PrimMSTArray(){
 	arrayDecreaseKey(0,0);
 	while(!isEmpty()){
 		Node * u;
-		#if HEAP == 1
-		u = heapExtractMin();
-		#else
 		u = arrayExtractMin();
-		#endif 
 		for(size_t i = 0; i < u->adj.size(); i ++){
 
 			Node* v = findNodeArray(u->adj[i].end);

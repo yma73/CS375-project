@@ -12,7 +12,7 @@
 #include<climits>
 #include<time.h>
 
-#define HANDLE 1
+#define HANDLE 0
 
 typedef struct{
 	int start;
